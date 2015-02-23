@@ -1,0 +1,5 @@
+The following libraries are required:
+	- LiquidCrystal (included in the Arduino base pakage)
+	- DS1307RTC (http://www.pjrc.com/teensy/td_libs_DS1307RTC.html)
+	- TimeAlarms (http://www.pjrc.com/teensy/td_libs_TimeAlarms.html)
+	- Time (http://www.pjrc.com/teensy/td_libs_Time.html)
