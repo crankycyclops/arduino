@@ -4,9 +4,7 @@
 // pin that controls how bright the LCD display should be
 #define LCD_BRIGHTNESS_PIN 9
 
-// defines how bright the LCD should be
-#define LCD_BRIGHTNESS_MIN        0
-#define LCD_BRIGHTNESS_MAX     1023
+// defines how bright the LCD should be (valid values are 0-1023.)
 #define LCD_BRIGHTNESS_STEP      50
 #define LCD_BRIGHTNESS_DEFAULT  125
 

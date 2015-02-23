@@ -33,16 +33,16 @@ class AlarmClock {
 		AlarmClock();
 
 		// Sets the alarm clock's mode.
-		inline void setMode(ClockMode newMode) {mode = newMode;}
+		void setMode(ClockMode newMode);
+
+		// Sets the brightness of the LCD.
+		inline void setLCDBrightness(int brightness) {LCDBrightness = brightness;}
 
 		// Returns the alarm clock's mode.
 		inline ClockMode getMode() {return mode;}
 
 		// Prompts the user to set the current time.
 		void setCurrentTime();
-
-		// sets the brightness of the LCD
-		void setLCDBrightness(int brightness);
 
 		// Initializes the clock.
 		void initClock();

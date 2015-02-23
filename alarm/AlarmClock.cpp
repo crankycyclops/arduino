@@ -57,16 +57,14 @@ void AlarmClock::displayTime() {
 		hr = 12;
 	}
 
-	String hrStr  = String(hr);
-	String minStr = min < 10 ? String("0") + String(min) : String(min);
-	String secStr = sec < 10 ? String("0") + String(sec) : String(sec);
+	String hrStr  = hr  < 10 ? "0" + String(hr)  : String(hr);
+	String minStr = min < 10 ? "0" + String(min) : String(min);
+	String secStr = sec < 10 ? "0" + String(sec) : String(sec);
 
-	String mnthStr = String(monthNames[mnth - 1]);
-	String dyStr   = String(dy);
-	String yrStr   = String(yr);
+	String dyStr   = dy < 10 ? "0" + String(dy) : String(dy);
 
 	lcd->setCursor(0, 0);
-	lcd->print(mnthStr + " " + dyStr + ", " + yrStr);
+	lcd->print(String(monthNames[mnth - 1]) + " " + dyStr + ", " + String(yr));
 	lcd->setCursor(0, 1);
 	lcd->print(hrStr + ":" + minStr + ":" + secStr + " " + timeMode);
 }
@@ -76,6 +74,14 @@ void AlarmClock::displayTime() {
 /////////////////////
 // Public Methods  //
 /////////////////////
+
+void AlarmClock::setMode(ClockMode newMode) {
+
+	mode = newMode;
+	lcd->clear();
+}
+
+/******************************************************************************/
 
 void AlarmClock::initClock() {
 
@@ -100,18 +106,6 @@ void AlarmClock::setCurrentTime() {
 
 	// TODO
 	return;
-}
-
-/******************************************************************************/
-
-void AlarmClock::setLCDBrightness(int brightness) {
-
-	// don't do anything if the value is invalid
-	if (brightness < LCD_BRIGHTNESS_MIN || brightness > LCD_BRIGHTNESS_MAX) {
-		return;
-	}
-
-	LCDBrightness = brightness;
 }
 
 /******************************************************************************/
