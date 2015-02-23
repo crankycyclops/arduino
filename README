@@ -1,0 +1,9 @@
+To use the Makefiles in these projects, copy arduino.mk to
+/usr/local/share/make/arduino.mk, or copy it somewhere else
+and modify the Makefile.
+
+The following libraries are required:
+	- LiquidCrystal (included in the Arduino base pakage)
+	- DS1307RTC (http://www.pjrc.com/teensy/td_libs_DS1307RTC.html)
+	- TimeAlarms (http://www.pjrc.com/teensy/td_libs_TimeAlarms.html)
+	- Time (http://www.pjrc.com/teensy/td_libs_Time.html)
