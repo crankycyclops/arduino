@@ -26,7 +26,6 @@ AlarmClock alarmClock;
 
 void setup() {
 
-	pinMode(9, OUTPUT);
 	alarmClock.initLCD();
 	alarmClock.initClock();
 }
@@ -35,7 +34,6 @@ void setup() {
 
 void loop() {
 
-	analogWrite(9, 25);
 	// TODO: every so often, I should probably sync (read, not write) with the RTC
 	alarmClock.updateDisplay();
 }
