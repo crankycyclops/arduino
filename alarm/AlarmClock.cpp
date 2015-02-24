@@ -16,6 +16,9 @@ AlarmClock::AlarmClock() {
 
 	// default brightness of the LCD
 	LCDBrightness = LCD_BRIGHTNESS_DEFAULT;
+
+	// setup controls
+	pinMode(MODE_PIN, INPUT);
 }
 
 /******************************************************************************/
@@ -121,9 +124,6 @@ void AlarmClock::initClock() {
 
 	// TODO: grab value from RTC
 	setTime(0, 0, 0, 1, 1, 15); // January 1, 2015, 00:00:00
-
-	// setup controls
-	pinMode(MODE_PIN, INPUT);
 
 	return;
 }
