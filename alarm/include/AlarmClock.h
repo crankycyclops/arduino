@@ -27,6 +27,15 @@ class AlarmClock {
 		// Called by updateDisplay() when mode = DISPLAY_TIME.
 		void displayTime();
 
+		// Called by updateDisplay() when mode = SET_TIME.
+		void displaySetTime();
+
+		// Called by updateDisplay() when mode = DISPLAY_ALARM.
+		void displayAlarm();
+
+		// Called by updateDisplay() when mode = SET_ALARM.
+		void displaySetAlarm();
+
 	public:
 
 		// Constructor
@@ -40,9 +49,6 @@ class AlarmClock {
 
 		// Returns the alarm clock's mode.
 		inline ClockMode getMode() {return mode;}
-
-		// Prompts the user to set the current time.
-		void setCurrentTime();
 
 		// Initializes the clock.
 		void initClock();

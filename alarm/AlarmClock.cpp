@@ -71,6 +71,39 @@ void AlarmClock::displayTime() {
 
 /******************************************************************************/
 
+void AlarmClock::displaySetTime() {
+
+	// TODO
+	lcd->setCursor(0, 0);
+	lcd->print("TODO: Set Time");
+
+	return;
+}
+
+/******************************************************************************/
+
+void AlarmClock::displayAlarm() {
+
+	// TODO
+	lcd->setCursor(0, 0);
+	lcd->print("TODO: Show Alarm");
+
+	return;
+}
+
+/******************************************************************************/
+
+void AlarmClock::displaySetAlarm() {
+
+	// TODO
+	lcd->setCursor(0, 0);
+	lcd->print("TODO: Set Alarm");
+
+	return;
+}
+
+/******************************************************************************/
+
 /////////////////////
 // Public Methods  //
 /////////////////////
@@ -79,6 +112,7 @@ void AlarmClock::setMode(ClockMode newMode) {
 
 	mode = newMode;
 	lcd->clear();
+	delay(250);
 }
 
 /******************************************************************************/
@@ -87,6 +121,10 @@ void AlarmClock::initClock() {
 
 	// TODO: grab value from RTC
 	setTime(0, 0, 0, 1, 1, 15); // January 1, 2015, 00:00:00
+
+	// setup controls
+	pinMode(MODE_PIN, INPUT);
+
 	return;
 }
 
@@ -102,18 +140,28 @@ void AlarmClock::initLCD() {
 
 /******************************************************************************/
 
-void AlarmClock::setCurrentTime() {
-
-	// TODO
-	return;
-}
-
-/******************************************************************************/
-
 void AlarmClock::updateDisplay() {
+
+	// used to track changes to the mode pin
+	static int lastModePinState = LOW;
 
 	// determines how bright the LCD is
 	updateBrightness();
+
+	// If user pressed the mode select button, cycle to the next mode.
+	int modePinState = digitalRead(MODE_PIN);
+
+	if (modePinState != lastModePinState && HIGH == modePinState) {
+		if (SET_ALARM == mode) {
+			// At the end, wrap around again to the first value.
+			setMode(DISPLAY_TIME);
+		} else {
+			// There's no ++ operator for enums... Really, C++?
+			setMode((ClockMode)((int)mode + 1));
+		}
+	}
+
+	lastModePinState = modePinState;
 
 	switch (mode) {
 
@@ -122,15 +170,15 @@ void AlarmClock::updateDisplay() {
 			break;
 
 		case SET_TIME:
-			// TODO
+			displaySetTime();
 			break;
 
 		case DISPLAY_ALARM:
-			// TODO
+			displayAlarm();
 			break;
 
 		case SET_ALARM:
-			// TODO
+			displaySetAlarm();
 			break;
 
 		default:

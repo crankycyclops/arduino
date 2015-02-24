@@ -4,6 +4,9 @@
 // pin that controls how bright the LCD display should be
 #define LCD_BRIGHTNESS_PIN 9
 
+// pin that switches between clock modes
+#define MODE_PIN 7
+
 // defines how bright the LCD should be (valid values are 0-1023.)
 #define LCD_BRIGHTNESS_STEP      50
 #define LCD_BRIGHTNESS_DEFAULT  125
