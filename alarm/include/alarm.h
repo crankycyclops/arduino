@@ -1,6 +1,8 @@
 #ifndef ALARM_H
 #define ALARM_H
 
+#define MILLIS_IN_HOUR 3600000
+
 // pin that controls how bright the LCD display should be
 #define LCD_BRIGHTNESS_PIN 9
 

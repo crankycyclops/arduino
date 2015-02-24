@@ -18,9 +18,6 @@ class AlarmClock {
 		// initialize the library with the numbers of the interface pins.
 		LiquidCrystal *lcd;
 
-		// Writes the current time to the alarm clock and the RTC. Called by setTime().
-		void updateTime(int hr, int min, int sec, int dy, int mnth, int yr);
-
 		// Updates the brightness of the LCD. Called by updateDisplay().
 		void updateBrightness();
 
@@ -46,6 +43,12 @@ class AlarmClock {
 
 		// Sets the brightness of the LCD.
 		inline void setLCDBrightness(int brightness) {LCDBrightness = brightness;}
+
+		// Syncs current time from the RTC.
+		void readRTC();
+
+		// Writes specified time to the RTC.
+		void writeRTC(int hr, int min, int sec, int dy, int mnth, int yr);
 
 		// Returns the alarm clock's mode.
 		inline ClockMode getMode() {return mode;}

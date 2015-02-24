@@ -27,14 +27,18 @@ AlarmClock alarmClock;
 void setup() {
 
 	alarmClock.initLCD();
-	alarmClock.initClock();
+	alarmClock.readRTC();
 }
 
 /******************************************************************************/
 
 void loop() {
 
-	// TODO: every so often, I should probably sync (read, not write) with the RTC
+	// sync with the RTC every four hours
+	if (0 == millis() % (4 * MILLIS_IN_HOUR)) {
+		alarmClock.readRTC();
+	}
+
 	alarmClock.updateDisplay();
 }
 

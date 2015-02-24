@@ -27,15 +27,6 @@ AlarmClock::AlarmClock() {
 // Private Methods //
 /////////////////////
 
-void AlarmClock::updateTime(int hr, int min, int sec, int dy, int mnth, int yr) {
-
-	// TODO: also update the RTC's stored time
-	setTime(hr, min, sec, dy, mnth, yr);
-	return;
-}
-
-/******************************************************************************/
-
 void AlarmClock::updateBrightness() {
 
 	analogWrite(LCD_BRIGHTNESS_PIN, LCDBrightness);
@@ -76,7 +67,7 @@ void AlarmClock::displayTime() {
 
 void AlarmClock::displaySetTime() {
 
-	// TODO
+	// TODO: eventually calls writeRTC() to set time
 	lcd->setCursor(0, 0);
 	lcd->print("TODO: Set Time");
 
@@ -120,11 +111,19 @@ void AlarmClock::setMode(ClockMode newMode) {
 
 /******************************************************************************/
 
-void AlarmClock::initClock() {
+void AlarmClock::readRTC() {
 
-	// TODO: grab value from RTC
+	// TODO 1: read time from RTC.
+	// TODO 2: call setTime() (from Time library) to set that value locally.
 	setTime(0, 0, 0, 1, 1, 15); // January 1, 2015, 00:00:00
+	return;
+}
 
+/******************************************************************************/
+
+void AlarmClock::writeRTC(int hr, int min, int sec, int dy, int mnth, int yr) {
+
+	// TODO: write value to the RTC
 	return;
 }
 
