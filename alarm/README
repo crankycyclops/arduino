@@ -1,3 +1,5 @@
+The schematic (schematic.sch) was drawn using the gEDA project (http://www.gpleda.org/)
+
 The following libraries are required:
 	- LiquidCrystal (included in the Arduino base pakage)
 	- DS1307RTC (http://www.pjrc.com/teensy/td_libs_DS1307RTC.html)
