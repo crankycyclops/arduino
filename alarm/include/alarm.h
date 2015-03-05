@@ -3,11 +3,16 @@
 
 #define MILLIS_IN_HOUR 3600000
 
-// pin that controls how bright the LCD display should be
+// pin (digital read) that controls how bright the LCD display should be
 #define LCD_BRIGHTNESS_PIN 9
 
-// pin that switches between clock modes
+// push button pin (digital read) that switches between clock modes
 #define MODE_PIN 7
+
+// push button pins (analog in) that are used to set the time and alarm
+#define SET_TOGGLE_PIN 0
+#define SET_PLUS_PIN   1
+#define SET_MINUS_PIN  2
 
 // defines how bright the LCD should be (valid values are 0-1023.)
 #define LCD_BRIGHTNESS_STEP      50
