@@ -49,7 +49,7 @@ class AlarmClock {
 		int promptHour();
 
 		// Displays the given time on the LCD.
-		void printTime(int hr, int min, int sec, int mnth, int dy, int yr);
+		void printTime(int hr, int min, int sec, int mnth, int dy, int yr, bool showDate = true);
 
 		// Called by updateDisplay() when mode = DISPLAY_TIME.
 		void displayTime();

@@ -267,7 +267,7 @@ int AlarmClock::promptHour() {
 
 /******************************************************************************/
 
-void AlarmClock::printTime(int hr, int min, int sec, int mnth, int dy, int yr) {
+void AlarmClock::printTime(int hr, int min, int sec, int mnth, int dy, int yr, bool showDate) {
 
 	const char *timeMode = hr < 12 ? "AM" : "PM";
 
@@ -287,8 +287,11 @@ void AlarmClock::printTime(int hr, int min, int sec, int mnth, int dy, int yr) {
 
 	String dyStr   = dy < 10 ? "0" + String(dy) : String(dy);
 
-	lcd->setCursor(0, 0);
-	lcd->print(String(monthNames[mnth - 1]) + " " + dyStr + ", " + String(yr));
+	if (showDate) {
+		lcd->setCursor(0, 0);
+		lcd->print(String(monthNames[mnth - 1]) + " " + dyStr + ", " + String(yr));
+	}
+
 	lcd->setCursor(0, 1);
 	lcd->print(hrStr + ":" + minStr + ":" + secStr + " " + timeMode);
 
