@@ -12,14 +12,44 @@ class AlarmClock {
 		// Current mode of the alarm clock.
 		ClockMode mode;
 
-		// the brightness of the LCD
+		// The brightness of the LCD.
 		int LCDBrightness;
 
-		// initialize the library with the numbers of the interface pins.
+		// Initialize the library with the numbers of the interface pins.
 		LiquidCrystal *lcd;
+
+		// Current and last states of the mode toggle button.
+		int modePinState;
+		int lastModePinState;
+
+		// Current and last states of the set time/alarm toggle button.
+		int setToggleState;
+		int lastSetToggleState;
+
+		// Checks for whether or not a button was pushed. Uses provided
+		// external variables to track the button's status. The last variable
+		// determines whether the pin is digital or analog.
+		bool wasButtonPushed(int &curState, int &lastState, int pin, bool analog = false);
+
+		// Checks state of the mode toggle button and changes the clock's
+		// mode if it's pressed. Returns true if the button was pressed and
+		// false otherwise.
+		bool checkModeToggle();
 
 		// Updates the brightness of the LCD. Called by updateDisplay().
 		void updateBrightness();
+
+		// Prompts the user for the second and returns the result.
+		int promptSecond();
+
+		// Prompts the user for the minute and returns the result.
+		int promptMinute();
+
+		// Prompts the user for the hour and returns the result.
+		int promptHour();
+
+		// Displays the given time on the LCD.
+		void printTime(int hr, int min, int sec, int mnth, int dy, int yr);
 
 		// Called by updateDisplay() when mode = DISPLAY_TIME.
 		void displayTime();

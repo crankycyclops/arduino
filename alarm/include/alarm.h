@@ -21,6 +21,9 @@
 // defines modes that the clock can be in
 enum ClockMode {DISPLAY_TIME, SET_TIME, DISPLAY_ALARM, SET_ALARM};
 
+// defines submodes for SET_TIME and SET_ALARM
+enum ClockSetMode {SET_SECOND, SET_MINUTE, SET_HOUR};
+
 // list of months (0-indexed)
 extern const char *monthNames[];
 
