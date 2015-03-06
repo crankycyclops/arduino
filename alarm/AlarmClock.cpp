@@ -100,9 +100,26 @@ int AlarmClock::promptSecond() {
 	// current value
 	int val = second();
 
+	// handles blinking
+	bool blank = false;
+	unsigned long prevMillisecond = 0;
+
 	while (1) {
 
-		printTime(hour(), minute(), val, month(), day(), year());
+		unsigned long curMillisecond = millis();
+
+		// Blinking seconds
+		if (curMillisecond - prevMillisecond > 500) {
+			prevMillisecond = curMillisecond;
+			blank = !blank;
+		}
+
+		if (blank) {
+			lcd->setCursor(6, 1);
+			lcd->print("  ");
+		} else {
+			printTime(hour(), minute(), val, month(), day(), year());
+		}
 
 		// if mode button is pressed, we need to drop out of SET_TIME
 		if (checkModeToggle()) {
@@ -143,9 +160,26 @@ int AlarmClock::promptMinute() {
 	// current value
 	int val = minute();
 
+	// handles blinking
+	bool blank = false;
+	unsigned long prevMillisecond = 0;
+
 	while (1) {
 
-		printTime(hour(), val, second(), month(), day(), year());
+		unsigned long curMillisecond = millis();
+
+		// Blinking seconds
+		if (curMillisecond - prevMillisecond > 500) {
+			prevMillisecond = curMillisecond;
+			blank = !blank;
+		}
+
+		if (blank) {
+			lcd->setCursor(3, 1);
+			lcd->print("  ");
+		} else {
+			printTime(hour(), val, second(), month(), day(), year());
+		}
 
 		// if mode button is pressed, we need to drop out of SET_TIME
 		if (checkModeToggle()) {
@@ -186,9 +220,26 @@ int AlarmClock::promptHour() {
 	// current value
 	int val = hour();
 
+	// handles blinking
+	bool blank = false;
+	unsigned long prevMillisecond = 0;
+
 	while (1) {
 
-		printTime(val, minute(), second(), month(), day(), year());
+		unsigned long curMillisecond = millis();
+
+		// Blinking seconds
+		if (curMillisecond - prevMillisecond > 500) {
+			prevMillisecond = curMillisecond;
+			blank = !blank;
+		}
+
+		if (blank) {
+			lcd->setCursor(0, 1);
+			lcd->print("  ");
+		} else {
+			printTime(val, minute(), second(), month(), day(), year());
+		}
 
 		// if mode button is pressed, we need to drop out of SET_TIME
 		if (checkModeToggle()) {
@@ -223,6 +274,11 @@ void AlarmClock::printTime(int hr, int min, int sec, int mnth, int dy, int yr) {
 	// Midnight is a special case in AM/PM format
 	if (0 == hr) {
 		hr = 12;
+	}
+
+	// We're not displaying military time
+	else if (hr > 12) {
+		hr -= 12;
 	}
 
 	String hrStr  = hr  < 10 ? "0" + String(hr)  : String(hr);
