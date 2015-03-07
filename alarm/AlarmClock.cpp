@@ -2,6 +2,7 @@
 #include <LiquidCrystal.h>
 #include <Time.h>
 
+#include "include/utility.h"
 #include "include/AlarmClock.h"
 
 
@@ -35,29 +36,6 @@ AlarmClock::AlarmClock() {
 // Private Methods //
 /////////////////////
 
-bool AlarmClock::wasButtonPushed(int &curState, int &lastState, int pin, bool analog) {
-
-	bool pushed = false;
-
-	if (analog) {
-		curState = analogRead(pin) ? HIGH : LOW;
-	}
-
-	else {
-		curState = digitalRead(pin);
-	}
-
-	if (curState != lastState && HIGH == curState) {
-		pushed = true;
-	}
-
-	lastState = curState;
-
-	return pushed;
-}
-
-/******************************************************************************/
-
 bool AlarmClock::checkModeToggle() {
 
 	bool state = false;
@@ -87,7 +65,53 @@ void AlarmClock::updateBrightness() {
 
 /******************************************************************************/
 
-int AlarmClock::promptSecond() {
+void AlarmClock::printTimePart(ClockSetMode part, int val) {
+
+	switch (part) {
+
+		case SET_SECOND:
+			printTime(hour(), minute(), val, month(), day(), year());
+			break;
+
+		case SET_MINUTE:
+			printTime(hour(), val, second(), month(), day(), year());
+			break;
+
+		case SET_HOUR:
+			printTime(val, minute(), second(), month(), day(), year());
+			break;
+
+		case SET_YEAR:
+			printTime(hour(), minute(), second(), month(), day(), val);
+			break;
+
+		case SET_MONTH:
+			printTime(hour(), minute(), second(), val, day(), year());
+			break;
+
+		case SET_DAY:
+			printTime(hour(), minute(), second(), month(), val, year());
+			break;
+
+		default:
+			break;
+	}
+
+	return;
+}
+
+/******************************************************************************/
+
+int AlarmClock::promptTimePart(int initVal, ClockSetMode part, int min, int max) {
+
+	// Vertical coordinate of the time part on the LCD display.
+	static int yLCDPos[] = {1, 1, 1, 0, 0, 0};
+
+	// Horizontal coordinate of the time part on the LCD display.
+	static int xLCDPos[] = {6, 3, 0, 8, 4, 0};
+
+	// How many characters are displayed for the time part.
+	static int LCDwidth[] = {2, 2, 2, 4, 2, 3};
 
 	// initialize the state of the + button
 	int setPlusState = LOW;
@@ -97,12 +121,11 @@ int AlarmClock::promptSecond() {
 	int setMinusState = LOW;
 	int lastSetMinusState = LOW;
 
-	// current value
-	int val = second();
-
 	// handles blinking
 	bool blank = false;
 	unsigned long prevMillisecond = 0;
+
+	int val = initVal;
 
 	while (1) {
 
@@ -115,10 +138,12 @@ int AlarmClock::promptSecond() {
 		}
 
 		if (blank) {
-			lcd->setCursor(6, 1);
-			lcd->print("  ");
+			lcd->setCursor(xLCDPos[(int)part], yLCDPos[(int)part]);
+			for (int i = 0; i < LCDwidth[(int)part]; i++) {
+				lcd->print(" ");
+			}
 		} else {
-			printTime(hour(), minute(), val, month(), day(), year());
+			printTimePart(part, val);
 		}
 
 		// if mode button is pressed, we need to drop out of SET_TIME
@@ -133,132 +158,12 @@ int AlarmClock::promptSecond() {
 
 		// user pressed the + button
 		else if (wasButtonPushed(setPlusState, lastSetPlusState, SET_PLUS_PIN, true)) {
-			val = val >= 59 ? 0 : val + 1;
+			val = val >= max ? min : val + 1;
 		}
 
 		// user pressed the - button
 		else if (wasButtonPushed(setMinusState, lastSetMinusState, SET_MINUS_PIN, true)) {
-			val = val > 0 ? val - 1 : 59;
-		}
-	}
-
-	return val;
-}
-
-/******************************************************************************/
-
-int AlarmClock::promptMinute() {
-
-	// initialize the state of the + button
-	int setPlusState = LOW;
-	int lastSetPlusState = LOW;
-
-	// initialize the state of the - button
-	int setMinusState = LOW;
-	int lastSetMinusState = LOW;
-
-	// current value
-	int val = minute();
-
-	// handles blinking
-	bool blank = false;
-	unsigned long prevMillisecond = 0;
-
-	while (1) {
-
-		unsigned long curMillisecond = millis();
-
-		// Blinking seconds
-		if (curMillisecond - prevMillisecond > 500) {
-			prevMillisecond = curMillisecond;
-			blank = !blank;
-		}
-
-		if (blank) {
-			lcd->setCursor(3, 1);
-			lcd->print("  ");
-		} else {
-			printTime(hour(), val, second(), month(), day(), year());
-		}
-
-		// if mode button is pressed, we need to drop out of SET_TIME
-		if (checkModeToggle()) {
-			return 0;
-		}
-
-		// continue trying to set minute until we toggle to the next time part
-		else if (wasButtonPushed(setToggleState, lastSetToggleState, SET_TOGGLE_PIN, true)) {
-			break;
-		}
-
-		// user pressed the + button
-		else if (wasButtonPushed(setPlusState, lastSetPlusState, SET_PLUS_PIN, true)) {
-			val = val >= 59 ? 0 : val + 1;
-		}
-
-		// user pressed the - button
-		else if (wasButtonPushed(setMinusState, lastSetMinusState, SET_MINUS_PIN, true)) {
-			val = val > 0 ? val - 1 : 59;
-		}
-	}
-
-	return val;
-}
-
-/******************************************************************************/
-
-int AlarmClock::promptHour() {
-
-	// initialize the state of the + button
-	int setPlusState = LOW;
-	int lastSetPlusState = LOW;
-
-	// initialize the state of the - button
-	int setMinusState = LOW;
-	int lastSetMinusState = LOW;
-
-	// current value
-	int val = hour();
-
-	// handles blinking
-	bool blank = false;
-	unsigned long prevMillisecond = 0;
-
-	while (1) {
-
-		unsigned long curMillisecond = millis();
-
-		// Blinking seconds
-		if (curMillisecond - prevMillisecond > 500) {
-			prevMillisecond = curMillisecond;
-			blank = !blank;
-		}
-
-		if (blank) {
-			lcd->setCursor(0, 1);
-			lcd->print("  ");
-		} else {
-			printTime(val, minute(), second(), month(), day(), year());
-		}
-
-		// if mode button is pressed, we need to drop out of SET_TIME
-		if (checkModeToggle()) {
-			return 0;
-		}
-
-		// continue trying to set hour until we toggle to the next time part
-		else if (wasButtonPushed(setToggleState, lastSetToggleState, SET_TOGGLE_PIN, true)) {
-			break;
-		}
-
-		// user pressed the + button
-		else if (wasButtonPushed(setPlusState, lastSetPlusState, SET_PLUS_PIN, true)) {
-			val = val >= 23 ? 0 : val + 1;
-		}
-
-		// user pressed the - button
-		else if (wasButtonPushed(setMinusState, lastSetMinusState, SET_MINUS_PIN, true)) {
-			val = val > 0 ? val - 1 : 23;
+			val = val > min ? val - 1 : max;
 		}
 	}
 
@@ -312,11 +217,17 @@ void AlarmClock::displaySetTime() {
 	int val;
 	static ClockSetMode curState = SET_SECOND;
 
+	int monthDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+	if (isLeapYear(year())) {
+		monthDays[1] = 29;
+	}
+
 	switch (curState) {
 
 		case SET_SECOND:
 
-			val = promptSecond();
+			val = promptTimePart(second(), curState, 0, 59);
 
 			if (SET_TIME == mode) {
 				setTime(hour(), minute(), val, month(), day(), year());
@@ -326,7 +237,7 @@ void AlarmClock::displaySetTime() {
 
 		case SET_MINUTE:
 
-			val = promptMinute();
+			val = promptTimePart(minute(), curState, 0, 59);
 
 			if (SET_TIME == mode) {
 				setTime(hour(), val, second(), month(), day(), year());
@@ -336,10 +247,52 @@ void AlarmClock::displaySetTime() {
 
 		case SET_HOUR:
 
-			val = promptHour();
+			val = promptTimePart(hour(), curState, 0, 23);
 
 			if (SET_TIME == mode) {
 				setTime(val, minute(), second(), month(), day(), year());
+			}
+
+			break;
+
+		case SET_YEAR:
+
+			val = promptTimePart(year(), curState, 1971, 2999);
+
+			if (SET_TIME == mode) {
+
+				// Do bounds checking for leap years in February
+				if (!isLeapYear(val) && 2 == month() && 29 == day()) {
+					setTime(hour(), minute(), second(), 3, 1, val);
+				} else {
+					setTime(hour(), minute(), second(), month(), day(), val);
+				}
+			}
+
+			break;
+
+		case SET_MONTH:
+
+			val = promptTimePart(month(), curState, 1, 12);
+
+			if (SET_TIME == mode) {
+
+				// Do bounds checking for days in the month
+				if (day() > monthDays[val]) {
+					setTime(hour(), minute(), second(), val, monthDays[val], year());
+				} else {
+					setTime(hour(), minute(), second(), val, day(), year());
+				}
+			}
+
+			break;
+
+		case SET_DAY:
+
+			val = promptTimePart(day(), curState, 1, monthDays[month() - 1]);
+
+			if (SET_TIME == mode) {
+				setTime(hour(), minute(), second(), month(), val, year());
 			}
 
 			break;
@@ -348,7 +301,7 @@ void AlarmClock::displaySetTime() {
 			break;
 	}
 
-	if (SET_HOUR == curState) {
+	if (SET_MONTH == curState) {
 		// At the end, wrap around again to the first value.
 		curState = SET_SECOND;
 	} else {

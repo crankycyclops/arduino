@@ -26,11 +26,6 @@ class AlarmClock {
 		int setToggleState;
 		int lastSetToggleState;
 
-		// Checks for whether or not a button was pushed. Uses provided
-		// external variables to track the button's status. The last variable
-		// determines whether the pin is digital or analog.
-		bool wasButtonPushed(int &curState, int &lastState, int pin, bool analog = false);
-
 		// Checks state of the mode toggle button and changes the clock's
 		// mode if it's pressed. Returns true if the button was pressed and
 		// false otherwise.
@@ -39,6 +34,14 @@ class AlarmClock {
 		// Updates the brightness of the LCD. Called by updateDisplay().
 		void updateBrightness();
 
+		// Prints the specified time part (second, minute, etc.) to the LCD
+		// display in the appropriate position and in the correct format.
+		void printTimePart(ClockSetMode part, int val);
+
+		// Prompts the user for the specified time part (second, minute, etc.)
+		// and returns the result.
+		int promptTimePart(int initVal, ClockSetMode part, int min, int max);
+/*
 		// Prompts the user for the second and returns the result.
 		int promptSecond();
 
@@ -47,7 +50,7 @@ class AlarmClock {
 
 		// Prompts the user for the hour and returns the result.
 		int promptHour();
-
+*/
 		// Displays the given time on the LCD.
 		void printTime(int hr, int min, int sec, int mnth, int dy, int yr, bool showDate = true);
 
