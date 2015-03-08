@@ -230,7 +230,7 @@ void AlarmClock::displaySetTime() {
 			val = promptTimePart(second(), curState, 0, 59);
 
 			if (SET_TIME == mode) {
-				setTime(hour(), minute(), val, month(), day(), year());
+				setTime(hour(), minute(), val, day(), month(), year());
 			}
 
 			break;
@@ -240,7 +240,7 @@ void AlarmClock::displaySetTime() {
 			val = promptTimePart(minute(), curState, 0, 59);
 
 			if (SET_TIME == mode) {
-				setTime(hour(), val, second(), month(), day(), year());
+				setTime(hour(), val, second(), day(), month(), year());
 			}
 
 			break;
@@ -250,7 +250,7 @@ void AlarmClock::displaySetTime() {
 			val = promptTimePart(hour(), curState, 0, 23);
 
 			if (SET_TIME == mode) {
-				setTime(val, minute(), second(), month(), day(), year());
+				setTime(val, minute(), second(), day(), month(), year());
 			}
 
 			break;
@@ -263,9 +263,9 @@ void AlarmClock::displaySetTime() {
 
 				// Do bounds checking for leap years in February
 				if (!isLeapYear(val) && 2 == month() && 29 == day()) {
-					setTime(hour(), minute(), second(), 3, 1, val);
+					setTime(hour(), minute(), second(), 1, 3, val);
 				} else {
-					setTime(hour(), minute(), second(), month(), day(), val);
+					setTime(hour(), minute(), second(), day(), month(), val);
 				}
 			}
 
@@ -279,9 +279,9 @@ void AlarmClock::displaySetTime() {
 
 				// Do bounds checking for days in the month
 				if (day() > monthDays[val]) {
-					setTime(hour(), minute(), second(), val, monthDays[val], year());
+					setTime(hour(), minute(), second(), monthDays[val], val, year());
 				} else {
-					setTime(hour(), minute(), second(), val, day(), year());
+					setTime(hour(), minute(), second(), day(), val, year());
 				}
 			}
 
@@ -292,7 +292,7 @@ void AlarmClock::displaySetTime() {
 			val = promptTimePart(day(), curState, 1, monthDays[month() - 1]);
 
 			if (SET_TIME == mode) {
-				setTime(hour(), minute(), second(), month(), val, year());
+				setTime(hour(), minute(), second(), val, month(), year());
 			}
 
 			break;
