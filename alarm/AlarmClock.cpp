@@ -194,7 +194,7 @@ void AlarmClock::printTime(int hr, int min, int sec, int mnth, int dy, int yr, b
 
 	if (showDate) {
 		lcd->setCursor(0, 0);
-		lcd->print(String(monthNames[mnth - 1]) + " " + dyStr + ", " + String(yr));
+		lcd->print(String(monthShortStr(mnth)) + " " + dyStr + ", " + String(yr));
 	}
 
 	lcd->setCursor(0, 1);

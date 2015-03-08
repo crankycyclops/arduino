@@ -5,21 +5,6 @@
 #include "include/AlarmClock.h"
 
 
-const char *monthNames[] = {
-	"Jan",
-	"Feb",
-	"Mar",
-	"Apr",
-	"May",
-	"Jun",
-	"Jul",
-	"Aug",
-	"Sep",
-	"Oct",
-	"Nov",
-	"Dec"
-};
-
 AlarmClock alarmClock;
 
 /******************************************************************************/
