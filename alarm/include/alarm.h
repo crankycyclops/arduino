@@ -18,6 +18,9 @@
 #define LCD_BRIGHTNESS_STEP      50
 #define LCD_BRIGHTNESS_DEFAULT   50
 
+class AlarmClock; // fully defined in AlarmClock.h
+extern AlarmClock alarmClock;
+
 // defines modes that the clock can be in
 enum ClockMode {DISPLAY_TIME, SET_TIME, DISPLAY_ALARM, SET_ALARM};
 

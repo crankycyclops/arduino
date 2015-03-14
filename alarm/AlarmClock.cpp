@@ -1,9 +1,20 @@
 #include <Arduino.h>
 #include <LiquidCrystal.h>
 #include <Time.h>
+#include <TimeAlarms.h>
 
 #include "include/utility.h"
 #include "include/AlarmClock.h"
+
+
+// This gets called whenever the alarm goes off.
+void triggerAlarm() {
+
+	// TODO
+	return;
+}
+
+/******************************************************************************/
 
 
 /////////////////////
@@ -28,6 +39,10 @@ AlarmClock::AlarmClock() {
 	// initialize the state of the set time/alarm toggle button
 	setToggleState = LOW;
 	lastSetToggleState = LOW;
+
+	// setup the alarm
+	alarmID = Alarm.alarmRepeat(0, 0, 0, triggerAlarm);
+	toggleAlarm(false);
 }
 
 /******************************************************************************/
@@ -35,6 +50,21 @@ AlarmClock::AlarmClock() {
 /////////////////////
 // Private Methods //
 /////////////////////
+
+void AlarmClock::toggleAlarm(bool enable) {
+
+	if (enable) {
+		Alarm.enable(alarmID);
+		alarmEnabled = true;
+	}
+
+	else {
+		Alarm.disable(alarmID);
+		alarmEnabled = false;
+	}
+}
+
+/******************************************************************************/
 
 bool AlarmClock::checkModeToggle() {
 
@@ -320,9 +350,12 @@ void AlarmClock::displaySetTime() {
 
 void AlarmClock::displayAlarm() {
 
-	// TODO
+	time_t alarmTime = Alarm.read(alarmID);
+
+	printTime(hour(alarmTime), minute(alarmTime), second(alarmTime), 0, 0, 0, false);
+
 	lcd->setCursor(0, 0);
-	lcd->print("TODO: Show Alarm");
+	lcd->print(alarmEnabled ? "Alarm is ON" : "Alarm is OFF");
 
 	return;
 }
