@@ -347,7 +347,7 @@ void AlarmClock::displaySetTime() {
 
 	// sync to the RTC when we're done setting the time
 	if (SET_TIME == mode) {
-		writeRTC(hour(), minute(), second(), day(), month(), year());
+		writeRTC(now());
 	}
 
 	return;
@@ -401,27 +401,16 @@ void AlarmClock::readRTC() {
 	time_t time = rtc->get();
 
 	setTime(hour(time), minute(time), second(time), day(time), month(time), year(time));
-
 	return;
 }
 
 /******************************************************************************/
 
-void AlarmClock::writeRTC(uint8_t hr, uint8_t min, uint8_t sec, uint8_t dy, uint8_t mnth, uint8_t yr) {
+void AlarmClock::writeRTC(time_t time) {
 
 	DS1307RTC *rtc = new DS1307RTC();
 
-	/* The Time library ignores the weekday component, so we just set that to
-	   some arbitrary value (hence the 0.) BUT, the DS1307RTC library DOESN'T
-	   ignore this value, so we have to convert it to a time_t first, then pass
-	   the time_t to rtc->set() instead of calling rtc->write() directly.
-	   Wonkiness.
-	*/
-	tmElements_t tm = {sec, min, hr, 0, dy, mnth, yr};
-	time_t time = makeTime(tm);
-
 	rtc->set(time);
-
 	return;
 }
 

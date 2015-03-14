@@ -88,7 +88,7 @@ class AlarmClock {
 		void readRTC();
 
 		// Writes specified time to the RTC.
-		void writeRTC(uint8_t hr, uint8_t min, uint8_t sec, uint8_t dy, uint8_t mnth, uint8_t yr);
+		void writeRTC(time_t time);
 
 		// Returns the alarm clock's mode.
 		inline ClockMode getMode() {return mode;}
