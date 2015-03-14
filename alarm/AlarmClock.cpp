@@ -2,6 +2,8 @@
 #include <LiquidCrystal.h>
 #include <Time.h>
 #include <TimeAlarms.h>
+#include <Wire.h>
+#include <DS1307RTC.h>
 
 #include "include/utility.h"
 #include "include/AlarmClock.h"
@@ -287,7 +289,7 @@ void AlarmClock::displaySetTime() {
 
 		case SET_YEAR:
 
-			val = promptTimePart(year(), curState, 1971, 2999);
+			val = promptTimePart(year(), curState, MIN_YEAR, MAX_YEAR);
 
 			if (SET_TIME == mode) {
 
@@ -343,6 +345,11 @@ void AlarmClock::displaySetTime() {
 		curState = SET_SECOND;
 	}
 
+	// sync to the RTC when we're done setting the time
+	if (SET_TIME == mode) {
+		writeRTC(hour(), minute(), second(), day(), month(), year());
+	}
+
 	return;
 }
 
@@ -390,17 +397,31 @@ void AlarmClock::setMode(ClockMode newMode) {
 
 void AlarmClock::readRTC() {
 
-	// TODO 1: read time from RTC.
-	// TODO 2: call setTime() (from Time library) to set that value locally.
-	setTime(0, 0, 0, 1, 1, 15); // January 1, 2015, 01:00:00
+	DS1307RTC *rtc = new DS1307RTC();
+	time_t time = rtc->get();
+
+	setTime(hour(time), minute(time), second(time), day(time), month(time), year(time));
+
 	return;
 }
 
 /******************************************************************************/
 
-void AlarmClock::writeRTC(int hr, int min, int sec, int dy, int mnth, int yr) {
+void AlarmClock::writeRTC(uint8_t hr, uint8_t min, uint8_t sec, uint8_t dy, uint8_t mnth, uint8_t yr) {
 
-	// TODO: write value to the RTC
+	DS1307RTC *rtc = new DS1307RTC();
+
+	/* The Time library ignores the weekday component, so we just set that to
+	   some arbitrary value (hence the 0.) BUT, the DS1307RTC library DOESN'T
+	   ignore this value, so we have to convert it to a time_t first, then pass
+	   the time_t to rtc->set() instead of calling rtc->write() directly.
+	   Wonkiness.
+	*/
+	tmElements_t tm = {sec, min, hr, 0, dy, mnth, yr};
+	time_t time = makeTime(tm);
+
+	rtc->set(time);
+
 	return;
 }
 

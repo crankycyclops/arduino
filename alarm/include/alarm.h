@@ -18,6 +18,10 @@
 #define LCD_BRIGHTNESS_STEP      50
 #define LCD_BRIGHTNESS_DEFAULT   50
 
+// The RTC only deals with years >= 2000 and <= 2099
+#define MIN_YEAR 2000
+#define MAX_YEAR 2099
+
 class AlarmClock; // fully defined in AlarmClock.h
 extern AlarmClock alarmClock;
 
