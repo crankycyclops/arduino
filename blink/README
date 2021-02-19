@@ -1,0 +1,8 @@
+The obligatory blinking LED program.
+
+To build:
+make
+
+And finally to upload (make sure the board is plugged in):
+sudo make upload
+
