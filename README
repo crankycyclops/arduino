@@ -1,3 +1,22 @@
-To use the Makefiles in these projects, copy arduino.mk to
-/usr/local/share/make/arduino.mk, or copy it somewhere else
-and modify the Makefile.
+To install dependencies on Ubuntu 20.04:
+
+sudo apt-get install libdevice-serialport-perl libyaml-perl
+
+Download the Arduino IDE for your architecture here:
+https://www.arduino.cc/en/software
+
+Extract the archive:
+cd /usr/local && sudo tar -xvf arduino-1.x.xx-arch.tar.xz
+
+Symlink to the versioned directory where the IDE was installed:
+sudo ln -s /usr/local/arduino-1.x.xx /usr/local/arduino
+
+Clone the Arduino makefile repo from https://github.com/sudar/Arduino-Makefile:
+cd /usr/local/arduino && sudo git clone git@github.com:sudar/Arduino-Makefile.git
+
+Create a directory where we can store any required third party libraries:
+sudo mkdir /usr/local/arduino-libraries
+
+You can read more about this makefile I'm using here:
+https://hardwarefun.com/tutorials/compiling-arduino-sketches-using-makefile
+

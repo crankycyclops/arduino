@@ -4,7 +4,7 @@
 #include <LiquidCrystal.h>
 #include <TimeAlarms.h>
 
-#include "include/alarm.h"
+#include "alarm.h"
 
 
 // Alarm payload

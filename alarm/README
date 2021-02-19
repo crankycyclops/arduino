@@ -5,3 +5,13 @@ The following libraries are required:
 	- DS1307RTC (http://www.pjrc.com/teensy/td_libs_DS1307RTC.html)
 	- TimeAlarms (http://www.pjrc.com/teensy/td_libs_TimeAlarms.html)
 	- Time (http://www.pjrc.com/teensy/td_libs_Time.html)
+	
+To install these libraries:
+
+cd /usr/local/arduino-libraries && sudo git clone git@github.com:PaulStoffregen/DS1307RTC.git
+cd /usr/local/arduino-libraries && sudo git clone git@github.com:PaulStoffregen/Time.git
+cd /usr/local/arduino-libraries && sudo git clone git@github.com:PaulStoffregen/TimeAlarms.git
+
+Then, to build:
+make
+
