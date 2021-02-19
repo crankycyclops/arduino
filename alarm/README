@@ -15,3 +15,6 @@ cd /usr/local/arduino-libraries && sudo git clone git@github.com:PaulStoffregen/
 Then, to build:
 make
 
+And finally to upload (make sure the board is plugged in):
+sudo make upload
+
