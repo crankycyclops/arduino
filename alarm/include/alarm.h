@@ -3,6 +3,14 @@
 
 #define MILLIS_IN_HOUR 3600000
 
+// Definitions for LCD pins
+#define LCD_ENABLE 2
+#define LCD_RS     4
+#define LCD_D4    10
+#define LCD_D5    11
+#define LCD_D6    12
+#define LCD_D7    13
+
 // pin (digital read) that controls how bright the LCD display should be
 #define LCD_BRIGHTNESS_PIN 9
 

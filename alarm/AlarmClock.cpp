@@ -418,7 +418,7 @@ void AlarmClock::writeRTC(time_t time) {
 
 void AlarmClock::initLCD() {
 
-	lcd = new LiquidCrystal(12, 11, 5, 4, 3, 2);
+	lcd = new LiquidCrystal(LCD_RS, LCD_ENABLE, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 	lcd->begin(16, 2);
 
 	return;
